@@ -1,0 +1,95 @@
+﻿*********************************************************************************************************************************************************
+#### Requerimientos previos
+
+- Tener instalado Python
+	- pip install selenium==3.141.0
+- Tener instalado Firefox
+- Copiar la carpeta "whatsapp-selenium" en el C:\
+
+
+*********************************************************************************************************************************************************
+#### Pasos previos a cada envío
+
+Por cada nuevo envío de mensajes se debe contar con dos archivos ubicados en:
+- \config\nombre-envio\lista-numeros-y_o-links.csv
+- \config\nombre-envio\texto-mensaje.csv
+
+Por ejemplo:
+- \config\Seguimiento\set_contactos_1.csv
+- \config\Seguimiento\set_contactos_2.csv
+- \config\Seguimiento\set_mensajes.csv
+En este caso se trata de una envío de mensajes de Seguimiento con los contactos divididos en dos tandas que ambos utilizan el mismo texto.
+
+Luego se debe editar el archivo "texto.py" en las líneas:
+
+línea 8 y 9
+# (1) MODIFICAR LA RUTA DEL ARCHIVO CON EL TEXTO. ES IMPORTANTE QUE SE UTILICE LA DOBLE BARRA (\\) PARA SEPARAR DIRECTORIOS
+archivo = open('config\\prueba-dgplan\\set_mensajes.csv','r', encoding='utf-8')
+
+línea 16 y 17
+# (2) MODIFICAR LA RUTA DEL ARCHIVO CON LOS CONTACTOS. ES IMPORTANTE QUE SE UTILICE LA DOBLE BARRA (\\) PARA SEPARAR DIRECTORIOS
+archivo = open('config\\prueba-dgplan\\set_contactos.csv','r', encoding='utf-8')
+
+*********************************************************************************************************************************************************
+#### Ejecución del programa
+
+Ir a Inicio y ejecutar el Símbolo de Sistema o presionar la teclar Windows+R, escribir "cmd" y darle Aceptar
+
+En el Símbolo del sistema ejecutar el comando:
+cd C:\whatsapp-selenium
+
+Luego ejecutar el programa con el comando:
+python envio_whatsapp.py
+
+Luego se abrirá el Firefox en la página de Whatsapp Web y se debe escanear el código QR con el celular que se quiere hacer el envío
+
+Volver al Símbolo del sistema y el programa le estará preguntando cuántos mensajes se quieren enviar. Aquí se debe colocar el total de líneas del archivo "\config\nombre-envio\lista-numeros-y_o-links.csv" sin contar el cabezal.
+
+Presionar Enter y el programa comenzará a enviar los mensajes.
+
+
+*********************************************************************************************************************************************************
+#### Formato de los archivos
+
+#### (lista-numeros-y_o-links.csv)
+Este archivo contiene los destinatarios de los mensajes. Siempre debe comenzar con el número del destinatario (columna "NUMERO") y luego puede tener otros campos como el NOMBRE, LINK, ETC.
+
+Ejemplo:
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+"NUMERO","LINK"
+"+598XXXXXXX1","https://formularios.udelar.edu.uy/forma/app/index.php/c/link-personalizado"
+"+598XXXXXXX2","https://formularios.udelar.edu.uy/forma/app/index.php/c/link-personalizado"
+...
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Todos los campos deben estar delimitados por comilla (") y separados por coma (,)
+
+*********************************************************************************************************************************************************
+#### (texto-mensaje.csv)
+Este archivo contiene el texto a ser enviado a los destinatarios y dentro contiene las referencias a los campos que se ingresan en el archivo anterior, en caso de ser necesario.
+
+Ejemplo:
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Estimado/a egresado/a Udelar
+
+Le recordamos la invitación a participar de la última medición del Programa de Seguimiento de Egresados, que tiene como propósito conocer la trayectoria y el desempeño laboral/ profesional de los egresados de la Udelar. El formulario estará disponible hasta el 31 de octubre.
+
+Usted podrá acceder directamente al formulario a través del siguiente link
+LINK
+
+Su participación es fundamental para seguir mejorando la Udelar. 
+
+Muchas gracias por su colaboración.
+Saluda muy atentamente,
+
+-- 
+Programa de Seguimiento de Egresados – Udelar
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+En este caso el programa toma el valor de "LINK" que está en el archivo de los contactos y lo inserta en el texto a ser enviado.
+
+
+*********************************************************************************************************************************************************
+#### Archivo de errores
+
+En el archivo log_fail.txt quedan almacenados con fecha y hora los casos que da error al cargar el contacto, principalmente porque el número es inválido
